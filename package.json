@@ -1,0 +1,17 @@
+{
+  "name": "basedatos_pruebas",
+  "version": "1.0.0",
+  "description": "Esté es un proyecto donde voy a estar creando una base de datos con NodeJS, express y quizas swagger",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leonardo Dillon",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "5.1.0",
+    "zod": "4.0.17"
+  }
+}
