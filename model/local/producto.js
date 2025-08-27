@@ -1,4 +1,4 @@
-import tienda from "../json/productos.json" with { type: 'json'};
+import tienda from "../../json/productos.json" with { type: 'json'};
 
 export class ProductoModel{
     static async getAll({ category }){
@@ -13,9 +13,8 @@ export class ProductoModel{
         return tienda.find( art => art.id == id )
     }
 
-    static async create({ body }){
-        console.log( body )
-        const { id,title,price,description,category,image,rating} = body
+    static async create( body ){
+        const { id, title, price, description,category, image, rating} = body
         const newProduct = {
             "id": id,
             "title": title,
@@ -32,7 +31,7 @@ export class ProductoModel{
         return newProduct
     }
 
-    static async edit({ id, body }){
+    static async edit( id, body ){
         const productIndex = tienda.findIndex( prod => prod.id == id )
         if( productIndex == -1 ) return {message: "El producto que quieres editar no existe"}
         const upadteProduct = {

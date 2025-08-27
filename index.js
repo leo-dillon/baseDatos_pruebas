@@ -11,7 +11,11 @@ app.disable('x-powered-by')
 app.use( express.json() )
 
 app.use('/productos', productosRouter)
-
+app.use( '/' , (req, res) => {
+    res.status(200).send( `
+        <h1> Hola, comienzo de proyecto </h1>
+        ` )
+})
 app.use( (req, res) => {
     res.status(404).send( "<h1> OOOOO nooo error 404</h1>" )
 })
