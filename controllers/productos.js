@@ -1,4 +1,3 @@
-import { success } from "zod"
 import { ProductoModel } from "../model/mysql/producto.js"
 import { parcialValidateProduct, validateProduct } from "../schemas/productos.js"
 import { mostrar } from "../utils/mostrar.js"
@@ -7,7 +6,7 @@ export class ProductosController{
     static async getAll ( req, res ) {
         const { category } = req.query
         let info = await ProductoModel.getAll({ category })
-        if( info && info.length > 0 ) return res.json(info)
+        if( info && info.length > 0 ) return res.status(200).json(info)
         return res.status(404).send( "Articulo no encontrado" )
     }
 

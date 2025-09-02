@@ -1,15 +1,5 @@
-import mysql from "mysql2/promise"
-import { mostrar } from "../../utils/mostrar.js"
+import db_mysql from "../../database/base_mysql.js"
 
-const config = {
-    host: "localhost",
-    user: "root",
-    port: 3306,
-    password: "",
-    database: "test"
-}
-
-const connection = await mysql.createConnection(config)
 export class ProductoModel{
     static async getAll({ category }){
         let query = `
@@ -21,7 +11,7 @@ export class ProductoModel{
             query += ` WHERE p.category = ?`
             params.push( category )
         }
-        const [ productos, infoTabla] = await connection.query( query, params )
+        const [ productos, infoTabla] = await db_mysql.query( query, params )
         
         return productos
     }
@@ -33,7 +23,7 @@ export class ProductoModel{
             LEFT JOIN ratings r ON p.rating_id = r.id 
             WHERE p.id = ?`
         const params = [id]
-        const [ producto, infoTabla ] = await connection.query( query, params )
+        const [ producto, infoTabla ] = await db_mysql.query( query, params )
         return producto
     }
 
@@ -41,22 +31,22 @@ export class ProductoModel{
         const { title, price, description, category, image } = body
 
         try {
-            await connection.beginTransaction()
-            const [ratingResult] = await connection.query(
+            await db_mysql.beginTransaction()
+            const [ratingResult] = await db_mysql.query(
             "INSERT INTO ratings (rate, count) VALUES (?, ?)",
             [0, 0]
             )
             const ratingId = ratingResult.insertId
-            await connection.query(
+            await db_mysql.query(
             `INSERT INTO productos ( title, price, description, category, image, rating_id) 
             VALUES ( ?, ?, ?, ?, ?, ?)`,
             [ title, price, description, category, image, ratingId]
             )
-            await connection.commit()
+            await db_mysql.commit()
             return { success:true, message: "El producto fue creado correctamente" }
 
         } catch (error) {
-            await connection.rollback()
+            await db_mysql.rollback()
             return  { success:false, message: error.message}
         }
 
@@ -74,7 +64,7 @@ export class ProductoModel{
             query += `${campos.join(', ')} WHERE id =   ?`
             params_2.push(id)
             
-            const [ productoEditado ] = await connection.query( query, params_2 )
+            const [ productoEditado ] = await db_mysql.query( query, params_2 )
             if( productoEditado.affectedRows == 0 ){
                 return {
                     success: false,
