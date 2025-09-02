@@ -1,5 +1,7 @@
+import { success } from "zod";
 import db_mysql from "../../database/base_mysql.js"
 import bcrypt from 'bcrypt';
+import { mostrar } from "../../utils/mostrar.js";
 const salt = 10
 
 
@@ -51,7 +53,34 @@ export class UserModel {
         }
     }
 
-    static async edit({ body }){
-        
+    static async edit( id, body ){
+        try {
+            mostrar( body )
+            let query = "UPDATE users SET"
+            let params = []
+            let campos = []
+            for (const key in body) {
+                campos.push(` ${key} = ? `)
+                params.push( body[ key ] )
+            }
+            query += `${campos.join(', ')} WHERE id = ?`
+            params.push(id)
+            const [ usuarioEditado ] = await db_mysql.query( query, params )
+            if( usuarioEditado.affectedRows == 0 ){
+                return {
+                    success: false,
+                    message: "El usuario no fue encontrado"
+                }
+            }
+            return {
+                success: true,
+                message: "El usuario se edito correctamente"
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: "Error al querer editar el usuario"
+            }
+        }
     }
 }

@@ -61,7 +61,7 @@ export class ProductoModel{
                 campos.push(` ${key} = ? `)
                 params_2.push( body[ key ] )
             }
-            query += `${campos.join(', ')} WHERE id =   ?`
+            query += `${campos.join(', ')} WHERE id = ?`
             params_2.push(id)
             
             const [ productoEditado ] = await db_mysql.query( query, params_2 )

@@ -1,5 +1,5 @@
 import { UserModel } from "../model/mysql/user.js";
-import { validateUsers } from "../schemas/users.js";
+import { parcialValidateUsers, validateUsers } from "../schemas/users.js";
 import { mostrar } from "../utils/mostrar.js";
 import ZodErrorFormat from "../utils/zodErrorFormat.js";
 
@@ -34,4 +34,15 @@ export class userController {
             })
         }
     }
-}
+
+    static async edit( req, res){
+        const { id } = req.query
+        const resultValidate = parcialValidateUsers( req.body )
+        if( resultValidate.error ) { 
+            return res.status(400).json({ message: "Error al querer editar el usuario" })
+        }
+        const user = await UserModel.edit( id, resultValidate.data )
+        if( user.success ) return res.status( 200 ).json({ message: user.message })
+        return res.status(400).json({ message: user.message })
+    }
+}  

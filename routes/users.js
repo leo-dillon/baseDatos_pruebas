@@ -7,7 +7,7 @@ usersRouter.get( "/", userController.getAll )
 
 usersRouter.post('/', userController.create )
 
-// usersRouter.put( "" )
+usersRouter.put( "/", userController.edit )
 
 // usersRouter.patch( "" )
 
