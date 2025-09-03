@@ -7,8 +7,11 @@ usersRouter.get( "/", userController.getAll )
 
 usersRouter.post('/', userController.create )
 
-usersRouter.put( "/", userController.edit )
+usersRouter.patch( "/", userController.edit )
 
-// usersRouter.patch( "" )
+usersRouter.patch( "/delete", userController.delete )
+
+usersRouter.post("/clearAll", userController.clear )
+
 
 export default usersRouter
