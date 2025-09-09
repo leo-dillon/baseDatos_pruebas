@@ -1,7 +1,5 @@
 import { UserModel } from "../model/mysql/user.js";
 import { parcialValidateUsers, validateUsers } from "../schemas/users.js";
-import dateTime from "../utils/dateTime.js";
-import { mostrar } from "../utils/mostrar.js";
 import ZodErrorFormat from "../utils/zodErrorFormat.js";
 
 export class userController {

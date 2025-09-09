@@ -2,7 +2,6 @@ import db_mysql from "../../database/base_mysql.js"
 import bcrypt from 'bcrypt';
 import dateTime from "../../utils/dateTime.js";
 import { mostrar } from "../../utils/mostrar.js";
-import { success } from "zod";
 const salt = 10
 
 
@@ -29,7 +28,7 @@ export class UserModel {
             return { success: false, message: error.message }
         }
     }
-
+        
     static async getAll({ name }){
         let query = `
                 SELECT * FROM users    
@@ -59,11 +58,13 @@ export class UserModel {
             let query = "UPDATE users SET"
             let params = []
             let campos = []
+            let datetime = dateTime()
             for (const key in body) {
                 campos.push(` ${key} = ? `)
                 params.push( body[ key ] )
             }
-            query += `${campos.join(', ')} WHERE id = ?`
+            query += `${campos.join(', ')} , edit_at = ? WHERE id = ?`
+            params.push(datetime)
             params.push(id)
             const [ usuarioEditado ] = await db_mysql.query( query, params )
             if( usuarioEditado.affectedRows == 0 ){
@@ -91,11 +92,7 @@ export class UserModel {
             const params = []
             params.push(res_datetime)
             params.push(id)
-
-            mostrar( query )
-            mostrar( params )
-            
-                const [usuarioEliminado] = await db_mysql.query( query, params )
+            const [usuarioEliminado] = await db_mysql.query( query, params )
             if( usuarioEliminado.affectedRows == 0 ){
                 return {
                     success: false,
