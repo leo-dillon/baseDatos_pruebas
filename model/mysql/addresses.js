@@ -24,7 +24,6 @@ export class addressesModel {
                 message: "La dirección fue creada correctamente"
             }
         } catch (error) {
-            mostrar(error)
             return {
                 success: false,
                 message: error.message
