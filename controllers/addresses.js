@@ -1,6 +1,5 @@
 import { addressesModel } from "../model/mysql/addresses.js";
 import { validateAddress, validateParcialAddress } from "../schemas/addresses.js";
-import { mostrar } from "../utils/mostrar.js";
 import ZodErrorFormat from "../utils/zodErrorFormat.js";
 
 export class addressesController{
@@ -8,7 +7,6 @@ export class addressesController{
         const addressesValidation = validateAddress(req.body)
         if( addressesValidation.success ){
             const createAddresses = await addressesModel.create( addressesValidation.data )
-            mostrar( createAddresses )
             if ( createAddresses.success ){
                 return res.status(200).json({
                     message: createAddresses.message
