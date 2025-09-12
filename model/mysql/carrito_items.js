@@ -1,6 +1,7 @@
 import { success } from "zod"
 import db_mysql from "../../database/base_mysql.js"
 import dateTime from "../../utils/dateTime.js"
+import { mostrar } from "../../utils/mostrar.js"
 
 export class carritoItemsModel {
     static async create( body ){
@@ -22,6 +23,22 @@ export class carritoItemsModel {
             return {
                 success: true,
                 message: "El producto fue agregado con exito al carrito"
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message
+            }
+        }
+    }
+
+    static async getAll(){
+        try {
+            const [carritoItemsGetAll] =  await db_mysql.query('SELECT * FROM carrito_items')
+            return {
+                success: true,
+                message: "Items encontrados",
+                data: carritoItemsGetAll
             }
         } catch (error) {
             return {

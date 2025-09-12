@@ -10,7 +10,6 @@ export class carritoItemsController {
         if( carritoItemsValidate.success ){
             
             try {
-                mostrar( carritoItemsValidate )
                 const createCarritoItems = await carritoItemsModel.create( carritoItemsValidate.data )
                 if( createCarritoItems.success ){
                     return res.status(200).json({
@@ -31,5 +30,17 @@ export class carritoItemsController {
         return res.status(403).json({
             message: errorMessage
         })
+    }
+
+    static async getAll(req,res){
+        try {
+            let carritoItemsGetAll = await carritoItemsModel.getAll()
+            return res.status(200).json({
+                message: "Items encontrados dentro de carritos",
+                data: carritoItemsGetAll.data
+            })
+        } catch (error) {
+            
+        }
     }
 }

@@ -5,4 +5,6 @@ const carritoItemsRouter = Router()
 
 carritoItemsRouter.post('/', carritoItemsController.create )
 
+carritoItemsRouter.get('/', carritoItemsController.getAll )
+
 export default carritoItemsRouter
